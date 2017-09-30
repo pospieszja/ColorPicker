@@ -118,7 +118,7 @@ class ColorPicker extends React.Component {
             if (format === "rgb") {
                 hex = color.match(REGEX_RGB);
                 hex.splice(0, 1)
-                return `#${parseInt(hex[0], 10).toString(16)}${parseInt(hex[1], 10).toString(16)}${parseInt(hex[2], 10).toString(16)}`.toUpperCase();
+                return `#${parseInt(hex[0], 10).toString(16).padStart(2,"0")}${parseInt(hex[1], 10).toString(16).padStart(2,"0")}${parseInt(hex[2], 10).toString(16).padStart(2,"0")}`.toUpperCase();
             }
         }
 
