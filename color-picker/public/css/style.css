@@ -1,9 +1,47 @@
-.color-picker {
+.wrapper {
     display: flex;
+    align-items: center
 }
 
-.picked-color {
-    border: 1px dotted black;
-    width: 50px;
-    height: 50px;
+.wrapper > div {
+    margin: 25px;
+}
+
+.wrapper-input {
+    text-align: center;
+}
+
+.button-input {
+    position: relative;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.button-input input {
+    margin: 0;
+    border: 0;
+    height: 30px;
+    padding: 2px 45px 2px 5px;
+
+}
+
+.button-input button {
+    margin: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 45px;
+}
+
+.wrapper-output {
+    text-align: center;
+}
+
+.wrapper-output .color-display {
+    border: 1px solid lightgrey;
+    height: 200px;
+    width: 150px;
+    display: inline-block;
 }

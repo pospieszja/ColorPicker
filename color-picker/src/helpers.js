@@ -76,8 +76,6 @@ export const convertRgbToHsl = (r, g, b) => {
             case b:
                 h = (r - g) / delta + 4;
                 break;
-            default:
-                break;
         }
         s = delta / (1 - Math.abs(2 * l - 1))
     }
