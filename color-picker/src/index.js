@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import {convertHslToRgb} from './helpers.js'
+import {convertRgbToHsl} from './helpers.js'
+
+
 class ConvertedColor extends React.Component {
     render() {
         return (
@@ -40,55 +44,6 @@ class ColorPicker extends React.Component {
                 return "hsl";
         };
 
-        const convertHsltoRgb = (h, s, l) => {
-            let c, x, m;
-            let r, g, b;
-
-            s /= 100;
-            l /= 100;
-
-            c = (1 - Math.abs(2 * l - 1)) * s;
-            x = c * (1 - Math.abs((h / 60) % 2 - 1))
-            m = l - c / 2
-
-            if (h >= 0 && h < 60) {
-                r = c;
-                b = x;
-                g = 0;
-            }
-
-            if (h >= 60 && h < 120) {
-                r = x;
-                b = c;
-                g = 0;
-            }
-
-            if (h >= 120 && h < 180) {
-                r = 0;
-                b = c;
-                g = x;
-            }
-
-            if (h >= 180 && h < 240) {
-                r = 0;
-                b = x;
-                g = c;
-            }
-
-            if (h >= 240 && h < 300) {
-                r = x;
-                b = 0;
-                g = c;
-            }
-
-            if (h >= 300 && h < 360) {
-                r = c;
-                b = 0;
-                g = x;
-            }
-
-            return [Math.round((r + m) * 255), Math.round((b + m) * 255), Math.round((g + m) * 255)];
-        }
 
         const getRgb = (format, color) => {
             let rgb = [];
@@ -108,7 +63,7 @@ class ColorPicker extends React.Component {
                 hsl = color.match(REGEX_HSL);
                 hsl.splice(0, 1)
 
-                rgb = convertHsltoRgb(hsl[0], hsl[1], hsl[2])
+                rgb = convertHslToRgb(hsl[0], hsl[1], hsl[2])
 
                 return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
             }
@@ -132,8 +87,26 @@ class ColorPicker extends React.Component {
                 hsl = color.match(REGEX_HSL);
                 hsl.splice(0, 1)
 
-                hex = convertHsltoRgb(hsl[0], hsl[1], hsl[2])
+                hex = convertHslToRgb(hsl[0], hsl[1], hsl[2])
                 return `#${parseInt(hex[0], 10).toString(16).padStart(2, "0")}${parseInt(hex[1], 10).toString(16).padStart(2, "0")}${parseInt(hex[2], 10).toString(16).padStart(2, "0")}`.toUpperCase();
+            }
+        }
+
+        const getHsl = (format, color) => {
+            let hsl = [];
+
+            if (format === "hsl")
+                return color
+
+            if (format === "rgb") {
+                let rgb = [];
+
+                rgb = color.match(REGEX_RGB);
+                rgb.splice(0, 1)
+
+                hsl = convertRgbToHsl(rgb[0], rgb[1], rgb[2])
+
+                return `hsl(${hsl[0]},${hsl[1]}%,${hsl[2]}%`
             }
         }
 
