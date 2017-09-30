@@ -16,7 +16,7 @@ function convertToRgb(val) {
     {
         colors = val.match(REGEX_HEX);
         colors.splice(0,1)
-        return "rgb(" + parseInt(colors[0],16) + "," + parseInt(colors[1],16) + "," + parseInt(colors[2],16) +")";
+        return `rgb(${parseInt(colors[0],16)}, ${parseInt(colors[1],16)}, ${parseInt(colors[2],16)})`;
     }  
 }
 
@@ -31,7 +31,7 @@ function convertToHex(val) {
     {
         colors = val.match(REGEX_RGB);
         colors.splice(0,1)
-        return "#" + colors[0].toString(16) + colors[1].toString(16) + colors[2].toString(16);
+        return `#${colors[0].toString(16)}${colors[1].toString(16)}${colors[2].toString(16)}`;
     }  
 }
 
