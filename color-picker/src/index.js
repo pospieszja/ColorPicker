@@ -29,6 +29,7 @@ class ColorPicker extends React.Component {
 
         const REGEX_RGB = /^rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
         const REGEX_HEX = /^#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})$/;   
+        const REGEX_HSL = /^hsl\((\d{1,3})\,(\d{1,3})\%\,(\d{1,3})\%\)$/;
 
         const inputColorFormat = (color) => {
             if (REGEX_RGB.test(color))
