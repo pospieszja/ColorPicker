@@ -20,6 +20,21 @@ function convertToRgb(val) {
     }  
 }
 
+function convertToHex(val) {
+    var colors;
+    if(val.match(REGEX_HEX))
+    {
+        return val;
+    }
+    
+    if(val.match(REGEX_RGB))
+    {
+        colors = val.match(REGEX_RGB);
+        colors.splice(0,1)
+        return "#" + colors[0].toString(16) + colors[1].toString(16) + colors[2].toString(16);
+    }  
+}
+
 class ColorPicker extends React.Component {
     constructor(props) {
         super(props);
@@ -40,12 +55,14 @@ class ColorPicker extends React.Component {
         }
         
         const rgb = convertToRgb(this.state.color);
+        const hex = convertToHex(this.state.color);
 
         return (
             <div className="color-picker">
                 <input type="text" value={this.state.color} onChange={this.handleInput.bind(this)}/>
                 <div className="picked-color" style={styleColor}></div>
                 <p>{rgb}</p>
+                <p>{hex}</p>
             </div>
         );
     }
