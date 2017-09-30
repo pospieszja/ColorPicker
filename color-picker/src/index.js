@@ -36,6 +36,8 @@ class ColorPicker extends React.Component {
                 return "rgb";
             if (REGEX_HEX.test(color))
                 return "hex";
+            if (REGEX_HSL.test(color))
+                return "hsl";                
         };
 
         const convertToRgb = (format, color) => {
