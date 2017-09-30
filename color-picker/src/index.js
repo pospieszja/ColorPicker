@@ -40,7 +40,7 @@ class ColorPicker extends React.Component {
                 return "hsl";
         };
 
-        const convertToRgb = (format, color) => {
+        const getRgb = (format, color) => {
             let rgb = [];
 
             if (format === "rgb")
@@ -109,7 +109,7 @@ class ColorPicker extends React.Component {
             }
         }
 
-        const convertToHex = (format, color) => {
+        const getHex = (format, color) => {
             let hex = [];
 
             if (format === "hex")
@@ -130,8 +130,8 @@ class ColorPicker extends React.Component {
             <div className="color-picker">
                 <input type="text" value={this.state.color} onChange={this.handleInput.bind(this)} />
                 <div className="picked-color" style={styleColor}></div>
-                <ConvertedColor color={convertToRgb(inputColorFormat(this.state.color), this.state.color)} />
-                <ConvertedColor color={convertToHex(inputColorFormat(this.state.color), this.state.color)} />
+                <ConvertedColor color={getRgb(inputColorFormat(this.state.color), this.state.color)} />
+                <ConvertedColor color={getHex(inputColorFormat(this.state.color), this.state.color)} />
             </div>
         );
     }
