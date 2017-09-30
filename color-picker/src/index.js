@@ -1,38 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const REGEX_RGB = /^rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
-const REGEX_HEX = /^#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})$/;
-//const REGEX_HSL = /^rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
-
-function convertToRgb(val) {
-    var colors;
-    if(val.match(REGEX_RGB))
-    {
-        return val;
+class ConvertedColor extends React.Component {
+    render() {
+        return (
+            <span>
+                <p>{this.props.color}</p>
+            </span>
+        )
     }
-    
-    if(val.match(REGEX_HEX))
-    {
-        colors = val.match(REGEX_HEX);
-        colors.splice(0,1)
-        return `rgb(${parseInt(colors[0],16)}, ${parseInt(colors[1],16)}, ${parseInt(colors[2],16)})`;
-    }  
-}
-
-function convertToHex(val) {
-    var colors;
-    if(val.match(REGEX_HEX))
-    {
-        return val;
-    }
-    
-    if(val.match(REGEX_RGB))
-    {
-        colors = val.match(REGEX_RGB);
-        colors.splice(0,1)
-        return `#${parseInt(colors[0],10).toString(16)}${parseInt(colors[1],10).toString(16)}${parseInt(colors[2],10).toString(16)}`.toUpperCase();
-    }  
 }
 
 class ColorPicker extends React.Component {
@@ -40,29 +16,63 @@ class ColorPicker extends React.Component {
         super(props);
         this.state = {
             color: ""
-        }        
+        }
     }
-
 
     handleInput(evt) {
         this.setState({
-            color: evt.target.value
+            color: evt.target.value,
         });
+
     }
     render() {
+
+        const REGEX_RGB = /^rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
+        const REGEX_HEX = /^#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})$/;   
+
+        const inputColorFormat = (color) => {
+            if (REGEX_RGB.test(color))
+                return "rgb";
+            if (REGEX_HEX.test(color))
+                return "hex";
+        };
+
+        const convertToRgb = (format, color) => {
+            let rgb = [];
+
+            if (format === "rgb")
+                return color
+
+            if (format === "hex") {
+                rgb = color.match(REGEX_HEX);
+                rgb.splice(0, 1)
+                return `rgb(${parseInt(rgb[0], 16)}, ${parseInt(rgb[1], 16)}, ${parseInt(rgb[2], 16)})`;
+            }
+        }
+
+        const convertToHex = (format, color) => {
+            let hex = [];
+
+            if (format === "hex")
+                return color
+
+            if (format === "rgb") {
+                hex = color.match(REGEX_RGB);
+                hex.splice(0, 1)
+                return `#${parseInt(hex[0], 10).toString(16)}${parseInt(hex[1], 10).toString(16)}${parseInt(hex[2], 10).toString(16)}`.toUpperCase();
+            }
+        }
+
         const styleColor = {
             backgroundColor: this.state.color
         }
-        
-        const rgb = convertToRgb(this.state.color);
-        const hex = convertToHex(this.state.color);
 
         return (
             <div className="color-picker">
-                <input type="text" value={this.state.color} onChange={this.handleInput.bind(this)}/>
+                <input type="text" value={this.state.color} onChange={this.handleInput.bind(this)} />
                 <div className="picked-color" style={styleColor}></div>
-                <p>{rgb}</p>
-                <p>{hex}</p>
+                <ConvertedColor color={convertToRgb(inputColorFormat(this.state.color), this.state.color)} />
+                <ConvertedColor color={convertToHex(inputColorFormat(this.state.color), this.state.color)} />
             </div>
         );
     }
